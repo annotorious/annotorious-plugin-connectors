@@ -3,9 +3,9 @@
   import { v4 as uuidv4 } from 'uuid';
   import { getSVGPoint } from '@annotorious/annotorious';
   import type { Annotation, ImageAnnotation, ImageAnnotatorState, StoreChangeEvent } from '@annotorious/annotorious';
-  import { getConnection } from '../layout';
-  import type { Connection, ConnectionAnnotation, ConnectionHandle, PinnedConnectionHandle, Point } from '../model';
-  import type { ConnectionGraph } from '../state';
+  import { getConnection } from '../../layout';
+  import type { Connection, ConnectionAnnotation, ConnectionHandle, PinnedConnectionHandle, Point } from '../../model';
+  import type { ConnectionGraph } from '../../state';
   import { Emphasis } from './emphasis';
   import Connector from './Connector.svelte';
   import RubberbandConnector from './RubberbandConnector.svelte';

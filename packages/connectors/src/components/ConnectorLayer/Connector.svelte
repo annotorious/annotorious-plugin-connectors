@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { ImageAnnotation, ImageAnnotatorState } from '@annotorious/annotorious';
-  import { computePath, getConnection } from '../layout';
+  import { computePath, getConnection } from '../../layout';
   import type { Connection, ConnectionAnnotation } from 'src/model';
 
   /** Props */

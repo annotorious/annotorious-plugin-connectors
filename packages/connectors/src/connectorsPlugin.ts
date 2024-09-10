@@ -1,6 +1,6 @@
 import type { ImageAnnotation, ImageAnnotator, ImageAnnotatorState } from '@annotorious/annotorious';
 import type { Point } from './model';
-import { ConnectorLayer } from './ConnectorLayer';
+import { ConnectorLayer } from './components/ConnectorLayer';
 import { createConnectionGraph } from './state';
 
 export interface ConnectorPluginInstance {

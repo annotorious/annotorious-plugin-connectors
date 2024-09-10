@@ -1,3 +1,3 @@
 export * from './model';
-export * from './openseadragon';
 export * from './connectorsPlugin';
+export * from './osdConnectorsPlugin';

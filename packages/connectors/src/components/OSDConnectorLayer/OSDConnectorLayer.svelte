@@ -2,12 +2,14 @@
   import OpenSeadragon from 'openseadragon';
   import type { ImageAnnotatorState } from '@annotorious/annotorious';
   import type { ImageAnnotation } from '@annotorious/openseadragon';
-  import ConnectorLayer from '../ConnectorLayer/ConnectorLayer.svelte';
+  import { ConnectorLayer } from '../ConnectorLayer';
   import OSDSVGLayer from './OSDSVGLayer.svelte';
-  import type { Point } from '../model';
+  import type { Point } from '../../model';
+  import type { ConnectionGraph } from '../../state';
 
   /** Props **/
   export let enabled: boolean;
+  export let graph: ConnectionGraph;
   export let state: ImageAnnotatorState<ImageAnnotation>;
   export let viewer: OpenSeadragon.Viewer;
 
@@ -29,6 +31,7 @@
   <ConnectorLayer 
     bind:this={connectorLayer}
     enabled={enabled}
+    graph={graph}
     scale={scale}
     state={state} 
     layerTransform={transform} 
