@@ -139,6 +139,7 @@ export const serializeW3C = (
         id: uuidv4(),
         motivation: 'tagging',
         body: bodies.map(b => ({
+          purpose: b.purpose,
           value: b.value
         } as W3CAnnotationBody)),
         target: id
