@@ -12,9 +12,7 @@ export const App = () => {
   useEffect(() => {
     if (!anno) return;
 
-    const onUpdate = (a: Annotation, previous: Annotation) =>
-      console.log('updated', a);
-
+    const onUpdate = (a: Annotation, _: Annotation) => console.log('updated', a);
     anno.on('updateAnnotation', onUpdate);
 
     anno.loadAnnotations('annotations.json');

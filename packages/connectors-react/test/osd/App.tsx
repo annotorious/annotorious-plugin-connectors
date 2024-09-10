@@ -8,10 +8,10 @@ import {
 } from '@annotorious/react';
 import { W3CImageRelationFormat } from '@annotorious/plugin-connectors'; 
 import { OSDConnectionPopup, OSDConnectorPlugin} from '../../src';
+import { DemoLabelPopup } from './DemoLabelPopup';
 
 import '@annotorious/openseadragon/annotorious-openseadragon.css';
 import '@annotorious/plugin-connectors/annotorious-connectors.css';
-import { DemoLabelPopup } from './DemoLabelPopup';
 
 const IIIF_SAMPLE = {
   "@context" : "http://iiif.io/api/image/2/context.json",
