@@ -1,4 +1,4 @@
-import type { ImageAnnotation } from '@annotorious/annotorious';
+import { ShapeType, type ImageAnnotation, type PolygonGeometry } from '@annotorious/annotorious';
 import { roundCorners } from 'svg-round-corners';
 import type { 
   Connection, 
@@ -6,7 +6,8 @@ import type {
   Direction, 
   FloatingConnectionHandle, 
   Path, 
-  PinnedConnectionHandle
+  PinnedConnectionHandle,
+  Point
 } from './model';
 
 const isFloatingConnectionHandle = (arg: any): arg is FloatingConnectionHandle => 
@@ -24,18 +25,46 @@ const invert = (dir: Direction): Direction =>
  * Returns all handles for this image annotation.
  */
 const getHandles = (annotation: ImageAnnotation): PinnedConnectionHandle[] => {
-  // TODO for prototyping, we're treating everything as a box...
-  const { minX, minY, maxX, maxY } = annotation.target.selector.geometry.bounds;
+  if (annotation.target.selector.type === ShapeType.POLYGON) {
+    const { minX, minY, maxX, maxY } = annotation.target.selector.geometry.bounds;
 
-  const w = maxX - minX;
-  const h = maxY - minY;
+    const w = maxX - minX;
+    const h = maxY - minY;
 
-  return [
-    { point: { x: minX + w / 2, y: maxY }, annotation, direction: 'N' }, // top
-    { point: { x: maxX, y: minY + h / 2 }, annotation, direction: 'E' }, // right
-    { point: { x: minX + w / 2, y: minY }, annotation, direction: 'S' }, // bottom
-    { point: { x: minX, y: minY + h / 2 }, annotation, direction: 'W' }  // left
-  ];
+    const { points } = (annotation.target.selector.geometry as PolygonGeometry);
+
+    const getClosest = (pt: Point): Point => {
+      const distSq = (xy: number[]) => {
+        const dx = pt.x - xy[0];
+        const dy = pt.y - xy[1];
+        return dx * dx + dy * dy;
+      }
+
+      const sorted = [...points].sort((a, b) => distSq(a) - distSq(b));
+      return { x: sorted[0][0], y: sorted[0][1] };
+    }
+
+    // Use closest point instead of bound middle
+    return [
+      { point: getClosest({ x: minX + w / 2, y: maxY }), annotation, direction: 'N' }, // top
+      { point: getClosest({ x: maxX, y: minY + h / 2 }), annotation, direction: 'E' }, // right
+      { point: getClosest({ x: minX + w / 2, y: minY }), annotation, direction: 'S' }, // bottom
+      { point: getClosest({ x: minX, y: minY + h / 2 }), annotation, direction: 'W' }  // left
+    ];
+  } else {
+    // Rectangles and ellipses
+    const { minX, minY, maxX, maxY } = annotation.target.selector.geometry.bounds;
+
+    const w = maxX - minX;
+    const h = maxY - minY;
+
+    return [
+      { point: { x: minX + w / 2, y: maxY }, annotation, direction: 'N' }, // top
+      { point: { x: maxX, y: minY + h / 2 }, annotation, direction: 'E' }, // right
+      { point: { x: minX + w / 2, y: minY }, annotation, direction: 'S' }, // bottom
+      { point: { x: minX, y: minY + h / 2 }, annotation, direction: 'W' }  // left
+    ];
+  }
 }
 
 /**
