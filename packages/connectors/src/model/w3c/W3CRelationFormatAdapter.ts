@@ -124,12 +124,8 @@ export const serializeW3C = (
   annotation: ImageAnnotation | ConnectionAnnotation, 
   imageAdapter: W3CImageFormatAdapter
 ): W3CImageAnnotation | W3CRelationLinkAnnotation | [W3CRelationLinkAnnotation, W3CRelationMetaAnnotation] => {
-  console.log('serializing', annotation);
-
   if (isConnectionAnnotation(annotation)) {
     const { id, bodies, target: { selector: { from, to }} } = annotation;
-
-    console.log('connection');
 
     const link = { 
       id,
@@ -148,10 +144,8 @@ export const serializeW3C = (
         target: id
       } as W3CRelationMetaAnnotation;
 
-      console.log('with meta', link, meta);
       return [link, meta];
     } else {
-      console.log('just link', link);
       return link;
     }
   } else {
