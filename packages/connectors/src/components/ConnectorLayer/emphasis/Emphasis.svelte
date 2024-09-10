@@ -16,7 +16,7 @@
 {/if}
 
 <style>
-  :global(.a9s-annotation-emphasis :is(cirlc, polygon, rect)) {
+  :global(.a9s-annotation-emphasis :is(circle, polygon, rect)) {
     fill: transparent;
     stroke: #cc23cc;
     stroke-width: 2px;
