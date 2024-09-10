@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { W3CImageFormat } from '@annotorious/annotorious';
-import type { ConnectionAnnotation } from '../ConnectionAnnotation';
+import { isConnectionAnnotation, type ConnectionAnnotation } from '../ConnectionAnnotation';
+import { isW3CRelationLinkAnnotation, isW3CRelationMetaAnnotation } from './W3CRelationAnnotation';
 import type { W3CRelationLinkAnnotation, W3CRelationMetaAnnotation } from './W3CRelationAnnotation';
 import type { 
   FormatAdapter, 
@@ -11,21 +12,6 @@ import type {
   W3CImageFormatAdapter, 
   W3CImageFormatAdapterOpts
 } from '@annotorious/openseadragon';
-
-const isConnectionAnnotation = (arg: any): arg is ConnectionAnnotation => 
-  arg.motivation !== undefined && arg.motivation === 'linking';
-
-const isW3CRelationLinkAnnotation = (arg: any): arg is W3CRelationLinkAnnotation =>
-  arg.motivation !== undefined && 
-  arg.motivation === 'linking' &&
-  arg.body !== undefined && 
-  arg.target !== undefined &&
-  typeof arg.body === 'string' && 
-  typeof arg.target === 'string';
-
-const isW3CRelationMetaAnnotation = (arg: any): arg is W3CRelationMetaAnnotation =>
-  (arg.motivation === undefined || arg.motivation === 'tagging') &&
-   typeof arg.target === 'string';
 
 // Shorthand 
 type W3CAnnotationOrRelation = 
