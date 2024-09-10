@@ -1,6 +1,7 @@
 import type { ImageAnnotation, ImageAnnotator, ImageAnnotatorState } from '@annotorious/annotorious';
 import type { Point } from './model';
 import { ConnectorLayer } from './ConnectorLayer';
+import { createConnectionGraph } from './state';
 
 export interface ConnectorPluginInstance {
 
@@ -16,10 +17,13 @@ export const mountPlugin = (anno: ImageAnnotator<ImageAnnotation>): ConnectorPlu
 
   let isEnabled = false;
 
+  const graph = createConnectionGraph(anno.state.store);
+
   const connectorLayer = new ConnectorLayer({
     target: anno.element,
     props: {
       enabled: isEnabled,
+      graph,
       state: anno.state as ImageAnnotatorState<ImageAnnotation>
     }
   });

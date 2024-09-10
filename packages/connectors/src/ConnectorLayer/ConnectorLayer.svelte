@@ -5,6 +5,7 @@
   import type { Annotation, ImageAnnotation, ImageAnnotatorState, StoreChangeEvent } from '@annotorious/annotorious';
   import { getConnection } from '../layout';
   import type { Connection, ConnectionAnnotation, ConnectionHandle, PinnedConnectionHandle, Point } from '../model';
+  import type { ConnectionGraph } from '../state';
   import { Emphasis } from './emphasis';
   import Connector from './Connector.svelte';
   import RubberbandConnector from './RubberbandConnector.svelte';
@@ -13,10 +14,11 @@
 
   /** Props */
   export let enabled: boolean;
-  export let state: ImageAnnotatorState<ImageAnnotation>;
+  export let graph: ConnectionGraph;
   export let layerTransform: string | undefined = undefined;
   export let pointerTransform: ((point: Point) => Point) | undefined = undefined;
   export let scale = 1;
+  export let state: ImageAnnotatorState<ImageAnnotation>;
 
   let source: ImageAnnotation | undefined;
 
@@ -83,7 +85,6 @@
   }
 
   const onPointerMove = (evt: PointerEvent) => {
-
     const pt: Point = pointerTransform 
         ? pointerTransform({ x: evt.offsetX, y: evt.offsetY })
         : getSVGPoint(evt, svgEl);
@@ -92,13 +93,20 @@
 
     if (source) {
       // Source defined - pick target
-      if (h)
+      if (h && !graph.isConnected(source.id, h.id)) {
+        // A target shape that's not yet connected - pin the
+        // connection and hover emphasise the target shape
         floatingConnection = getConnection(source, h);
-      else
+        hovered = h;
+      } else {
+        // No hovered shape, or already connected
         floatingConnection = getConnection(source, { point: pt });
+        hovered = undefined;
+      }
+    } else {
+      // No source shape - hover the current, if any
+      hovered = h;
     }
-
-    hovered = h;
   }
 
   onMount(() => {
