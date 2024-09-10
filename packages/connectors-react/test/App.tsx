@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ImageAnnotator, useAnnotator } from '@annotorious/react';
+import { Annotation, Annotator, ImageAnnotator, useAnnotator } from '@annotorious/react';
 import { W3CImageRelationFormat } from '@annotorious/plugin-connectors'; 
 import { ConnectionPopup, ConnectorPlugin } from '../src';
 
@@ -7,12 +7,21 @@ export const App = () => {
 
   const [mode, setMode] = useState<'ANNOTATE' | 'RELATIONS'>('ANNOTATE');
 
-  const anno = useAnnotator();
+  const anno = useAnnotator<Annotator<Annotation, Annotation>>();
 
   useEffect(() => {
     if (!anno) return;
 
+    const onUpdate = (a: Annotation, previous: Annotation) =>
+      console.log('updated', a);
+
+    anno.on('updateAnnotation', onUpdate);
+
     anno.loadAnnotations('annotations.json');
+
+    return () => {
+      anno.off('updateAnnotation', onUpdate);
+    }
   }, [anno]);
 
   return (
@@ -33,8 +42,10 @@ export const App = () => {
         enabled={mode === 'RELATIONS'}>
 
         <ConnectionPopup 
-          popup={() => (
-            <div>Hello World</div>
+          popup={props => (
+            <div>
+              <button onClick={() => props.onCreateBody({ purpose: 'testing', value: 'test'})}>Add Tag</button>
+            </div>
           )} />
 
       </ConnectorPlugin>
