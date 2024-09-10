@@ -1,6 +1,6 @@
 {
   "name": "@annotorious/plugin-connectors-react",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "React bindings for the Annotorious connectors plugin.",
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
@@ -32,9 +32,9 @@
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "typescript": "5.5.4",
+    "typescript": "5.6.2",
     "vite": "^5.4.3",
-    "vite-plugin-dts": "^4.1.0",
+    "vite-plugin-dts": "^4.2.1",
     "vite-tsconfig-paths": "^5.0.1"
   },
   "peerDependencies": {
@@ -49,7 +49,7 @@
     }
   },
   "dependencies": {
-    "@annotorious/plugin-connectors": "0.0.10",
+    "@annotorious/plugin-connectors": "0.1.0",
     "@floating-ui/react": "^0.26.23",
     "uuid": "^10.0.0"
   },

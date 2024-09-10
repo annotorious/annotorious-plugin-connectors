@@ -1,6 +1,6 @@
 {
   "name": "@annotorious/plugin-connectors",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "An Annotorious plugin for connecting annotations through elbow connectors.",
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
@@ -39,9 +39,9 @@
     "@types/uuid": "^10.0.0",
     "svelte": "^4.2.19",
     "svelte-preprocess": "^6.0.2",
-    "typescript": "5.5.4",
+    "typescript": "5.6.2",
     "vite": "^5.4.3",
-    "vite-plugin-dts": "^4.1.0"
+    "vite-plugin-dts": "^4.2.1"
   },
   "peerDependencies": {
     "@annotorious/annotorious": "^3.0.5",
