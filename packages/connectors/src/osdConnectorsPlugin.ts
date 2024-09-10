@@ -10,9 +10,7 @@ export const mountOSDPlugin = (
   viewer: OpenSeadragon.Viewer
 ): ConnectorPluginInstance  => {
 
-  const { store, selection } = anno.state;
-
-  const graph = createConnectionGraph(store);
+  const graph = createConnectionGraph(anno.state.store);
 
   let isEnabled = false;
 
@@ -45,7 +43,7 @@ export const mountOSDPlugin = (
   }
 
   const unmount = () => {
-    // Nothing to do
+    graph.destroy();
   }
 
   return { 

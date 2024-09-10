@@ -20,12 +20,18 @@
   
   $: connection = computeConnection(annotation);
 
-  $: midPoint = computeMidPoint(pathElement, connection);
+  $: midPoint = connection && computeMidPoint(pathElement, connection);
 
-  const computeConnection = (annotation: ConnectionAnnotation) =>
-    getConnection(
-      store.getAnnotation(annotation.target.selector.from)!, 
-      store.getAnnotation(annotation.target.selector.to)!);
+  const computeConnection = (annotation: ConnectionAnnotation) => {
+    const from = store.getAnnotation(annotation.target.selector.from);
+    const to = store.getAnnotation(annotation.target.selector.to);
+
+    // Note that annotations might have been deleted meanwhile!
+    if (from && to) 
+      return getConnection(
+        store.getAnnotation(annotation.target.selector.from)!, 
+        store.getAnnotation(annotation.target.selector.to)!);
+  }
 
   const computeMidPoint = (el: SVGPathElement, connection: Connection) => {
     if (el && connection) {
@@ -56,14 +62,16 @@
   });
 </script>
 
-<g class="a9s-connector">
+<g 
+  class="a9s-connector"
+  class:selected={isSelected}>
   {#if connection}
     {@const path = computePath(connection, 10)}
 
     <path 
       bind:this={pathElement}
       class="a9s-connector-path-buffer"
-      class:selected={isSelected}
+
       d={path.d} 
       on:pointerdown={onPointerDown} />
 
@@ -94,7 +102,7 @@
     transition: stroke 125ms ease-in-out;
   }
 
-  path.a9s-connector-path-buffer.selected {
+  .selected path.a9s-connector-path-buffer {
     stroke: rgba(255, 255, 255, 0.5);
   }
 

@@ -35,9 +35,8 @@ export const createConnectionGraph = <T extends Annotation>(store: Store<T>) => 
     } else if (isImageAnnotation(a)) {
       // Keep track of deleted image annotations & delete connected links
       const connected = links.filter(l => l.from === a.id || l.to === a.id);
-      if (connected.length > 0) {
+      if (connected.length > 0)
         store.bulkDeleteAnnotation(connected.map(c => c.id))
-      }
     }
   }
 
@@ -49,7 +48,7 @@ export const createConnectionGraph = <T extends Annotation>(store: Store<T>) => 
   }
 
   const storeObserver = (event: StoreChangeEvent<T>) => {
-    const { created, deleted, updated } = event.changes;
+    const { created, deleted } = event.changes;
 
     (created || []).map(onCreateAnnotation);
     (deleted || []).map(onDeleteAnnotation);

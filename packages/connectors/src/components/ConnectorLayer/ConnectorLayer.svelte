@@ -4,7 +4,7 @@
   import { getSVGPoint } from '@annotorious/annotorious';
   import type { Annotation, ImageAnnotation, ImageAnnotatorState, StoreChangeEvent } from '@annotorious/annotorious';
   import { getConnection } from '../../layout';
-  import type { Connection, ConnectionAnnotation, ConnectionHandle, PinnedConnectionHandle, Point } from '../../model';
+  import { isConnectionAnnotation, type Connection, type ConnectionAnnotation, type ConnectionHandle, type PinnedConnectionHandle, type Point } from '../../model';
   import type { ConnectionGraph } from '../../state';
   import { Emphasis } from './emphasis';
   import Connector from './Connector.svelte';
@@ -111,11 +111,16 @@
 
   onMount(() => {
     const onChange = (event: StoreChangeEvent<Annotation>) => {
-      const { created, updated, deleted } = event.changes;
+      const { created, deleted } = event.changes;
 
-      // @ts-ignore
-      const addedConnections: ConnectionAnnotation[] = (created || []).filter(a => a.motivation === 'linking');
-      connections = [...connections, ...addedConnections];
+
+      const addedConnections = 
+        (created || []).filter(isConnectionAnnotation);
+
+      const deletedIds =
+        new Set((deleted || []).filter(isConnectionAnnotation).map(c => c.id));
+
+      connections = [...connections, ...addedConnections].filter(c => !deletedIds.has(c.id));
     }
 
     store.observe(onChange);

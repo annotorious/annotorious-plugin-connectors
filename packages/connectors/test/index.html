@@ -35,6 +35,7 @@
       <div>
         <button id="relations">Mode: Annotate</button>
         <button id="get-midpoint">Midpoint</button>
+        <button id="delete">Delete Selected</button>
       </div>
 
       <img id="sample-image" src="640px-Hallstatt.jpg" />
@@ -81,6 +82,12 @@
           var first = selected[0]?.id;
           if (first)
             console.log('midpoint:', connectors.getMidpoint(first));
+        });
+
+        var deleteBtn = document.getElementById('delete');
+        deleteBtn.addEventListener('click', function() {
+          const selected = anno.getSelected();
+          selected.forEach(a => anno.removeAnnotation(a));
         });
       }
     </script>

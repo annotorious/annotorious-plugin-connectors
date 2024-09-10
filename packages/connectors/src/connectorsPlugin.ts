@@ -39,7 +39,7 @@ export const mountPlugin = (anno: ImageAnnotator<ImageAnnotation>): ConnectorPlu
   }
 
   const unmount = () => {
-    // Nothing to do
+    graph.destroy();
   }
 
   return { 
