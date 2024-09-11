@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { W3CImageRelationFormat } from '@annotorious/plugin-connectors'; 
 import { 
   AnnotoriousOpenSeadragonAnnotator, 
   DrawingStyle, 
@@ -6,7 +7,6 @@ import {
   OpenSeadragonViewer, 
   useAnnotator,
 } from '@annotorious/react';
-import { W3CImageRelationFormat } from '@annotorious/plugin-connectors'; 
 import { OSDConnectionPopup, OSDConnectorPlugin} from '../../src';
 import { DemoLabelPopup } from './DemoLabelPopup';
 
@@ -71,6 +71,7 @@ export const App = () => {
 
     anno.on('createAnnotation', a => console.log(a));
     anno.on('updateAnnotation', a => console.log(a));
+    anno.on('selectionChanged', a => console.log(a));
   }, [anno]);
 
   const toggleMode = () => setMode(mode => 
