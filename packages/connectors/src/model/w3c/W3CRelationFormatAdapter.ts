@@ -125,7 +125,7 @@ export const serializeW3C = (
       // does not exist in the internal model. (Meta payload is just stored as bodies.) Therefore,
       // we're deriving a UUID from the annotation UUID, and use that for the meta annotation.
       const meta = {
-        id: uuidv5(id, '@annotorious/plugin-connectors'),
+        id: uuidv5('@annotorious/plugin-connectors', id),
         motivation: 'tagging',
         body: bodies.map(b => ({
           purpose: b.purpose,
