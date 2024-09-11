@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v5 as uuidv5 } from 'uuid';
 import { W3CImageFormat } from '@annotorious/annotorious';
 import { isConnectionAnnotation, type ConnectionAnnotation } from '../ConnectionAnnotation';
 import { isW3CRelationLinkAnnotation, isW3CRelationMetaAnnotation } from './W3CRelationAnnotation';
@@ -121,8 +121,11 @@ export const serializeW3C = (
     } as W3CRelationLinkAnnotation;
 
     if (bodies.length > 0) {
+      // Here's a key problem: each annotation needs a stable ID. However, the "meta annotation"
+      // does not exist in the internal model. (Meta payload is just stored as bodies.) Therefore,
+      // we're deriving a UUID from the annotation UUID, and use that for the meta annotation.
       const meta = {
-        id: uuidv4(),
+        id: uuidv5(id, '@annotorious/plugin-connectors'),
         motivation: 'tagging',
         body: bodies.map(b => ({
           purpose: b.purpose,
