@@ -10,7 +10,7 @@
   import Connector from './Connector.svelte';
   import RubberbandConnector from './RubberbandConnector.svelte';
 
-	const dispatch = createEventDispatcher<{ create: ConnectionAnnotation }>();
+  const dispatch = createEventDispatcher<{ create: ConnectionAnnotation }>();
 
   /** Props */
   export let enabled: boolean;
