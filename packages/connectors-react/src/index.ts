@@ -19,5 +19,8 @@ export type {
 } from '@annotorious/plugin-connectors';
 
 export {
+  isConnectionAnnotation,
+  isW3CRelationLinkAnnotation,
+  isW3CRelationMetaAnnotation,
   W3CImageRelationFormat
 } from '@annotorious/plugin-connectors';
