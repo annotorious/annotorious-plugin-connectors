@@ -95,9 +95,11 @@ const enumeratePathLayouts = (start: PinnedConnectionHandle, end: ConnectionHand
   // Paths that work for this dx/dy combination and start/end direction
   return potentialLayouts.reduce<string[]>((all, row) => {
     const validLayouts = row.layouts.filter(l => 
-      l.startsWith(sd) && (!ed || l.endsWith(ed)));
+      (l.startsWith(sd) && (!ed || l.endsWith(ed))) ||
+      // A half-sensible workaround to support intersecting shapes
+      (l.startsWith(invert(sd)) && (!ed || l.endsWith(invert(ed)))));
     return [...all, ...validLayouts];
-  }, [])
+  }, []); 
 }
 
 /** 
